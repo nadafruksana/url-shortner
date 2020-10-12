@@ -12,4 +12,4 @@ const configureDB = ()=>{
         console.log(err)
     })
 }
-module.exports=configureDB
+module.exports = configureDB
