@@ -8,9 +8,7 @@ configureStore()
 
 const useragent = require('express-useragent')
 app.use(useragent.express())
-
 app.use(express.json())
-
 
 const routes = require('./config/routes')
 app.use('/',routes)
