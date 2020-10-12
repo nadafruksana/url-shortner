@@ -3,7 +3,6 @@ const Url = require('../models/url')
 module.exports.list=(req,res)=>{
     Url.find()
     .then((url)=>{
-        //console.log(req.useragent)
         res.json(url)
     })
     .catch((err)=>{
@@ -56,9 +55,9 @@ module.exports.destroy=(req,res)=>{
 }
 module.exports.redirect = (req,res)=>{
     const hash = req.params.hash
-    Url.findOne({hashedUrl:hash})
+    Url.findOne({urlHash:hash})
     .then((url)=>{
-        res.redirect(url.originalUrl)
+        res.redirect(url.url)
     })
     .catch((err)=>{
         res.json(err)
@@ -66,17 +65,17 @@ module.exports.redirect = (req,res)=>{
 }
 module.exports.redirect=(req,res)=>{
     const hash = req.params.hash
-    const clientData = req.useragent
-    const ip=req.clientIp
+    // const clientData = req.useragent
+    // const ip=req.clientIp
     
-    const click = {
-        ipAddress:ip,
-        browser:clientData.browser,
-        platform:clientData.platform,
-        device:clientData.Mobile? 'Mobile':'Desktop'
-    }
-    Url.findOneAndUpdate({hashedUrl:hash},
-                {$push:{clicks:click}},
+    // const click = {
+    //     ipAddress:ip,
+    //     browser:clientData.browser,
+    //     platform:clientData.platform,
+    //     device:clientData.Mobile? 'Mobile':'Desktop'
+    // }
+    Url.findOneAndUpdate({urlHash:hash},
+            
                 {new:true, runValidators:true})
               .then((url)=>{
                console.log(url)
@@ -84,10 +83,10 @@ module.exports.redirect=(req,res)=>{
             .catch((err)=>{
                 res.json(err)
             })
-            console.log(ip)
-            Url.findOne({hashedUrl:hash})
+           // console.log(ip)
+            Url.findOne({urlHash:hash})
             .then((url)=>{
-                res.redirect(url.originalUrl)
+                res.redirect(url.url)
             })
             .catch((err)=>{
                 res.json(err)

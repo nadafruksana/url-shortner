@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "express-useragent": "^1.0.13",
     "mongoose": "^5.9.11",
+    "short-uuid": "^4.1.0",
     "shorthash": "0.0.2",
     "validator": "^13.0.0"
   }

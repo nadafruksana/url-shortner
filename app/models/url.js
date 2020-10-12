@@ -1,14 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const validator = require('validator')
+const short = require('short-uuid');
+ 
 const sh = require('shorthash')
 
 const urlSchema = new Schema({
-    title:{
-        type:String,
-        required:true
-    },
-    originalUrl:{
+    
+    url:{
         type:String,
         required:true,
         validate:{
@@ -20,26 +19,16 @@ const urlSchema = new Schema({
             }
         }
     },
-    hashedUrl:{
+    urlHash:{
         type:String,
     },
-    clicks:
-        [{clickDateTime: {type:Date,default:Date.now} ,
-            ipAddress:String,
-            browser:String,
-            platform:String,
-            device:String
-        }],
-    createdAt:{
-        type:Date,
-        default:Date.now
-    }
 })
+short.generate();
 urlSchema.pre('save',function(next){
-    const hash=sh.unique(this.originalUrl)
-    if(this.originalUrl !==''){
-        this.hashedUrl= hash
-        console.log(this.hashedUrl)
+    const hash=sh.unique(this.url)
+    if(this.url !==''){
+        this.urlHash= hash
+        
     }
     next()
 })
